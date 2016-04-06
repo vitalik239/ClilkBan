@@ -2,7 +2,7 @@ badwords = []
 
 
 def get():
-    file = open('/Users/vitalik/Desktop/ClilkBan/resources/badwords.txt', 'rU')
+    file = open('resources/badwords.txt', 'rU')
 
     for word in file:
         word = word.strip(" \n")

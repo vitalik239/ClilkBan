@@ -7,7 +7,7 @@ class Good:
     dict = {}
 
     def __init__(self):
-        reader = csv.reader(open('/Users/vitalik/Desktop/ClilkBan/resources/bad-good.csv', 'r'))
+        reader = csv.reader(open('resources/bad-good.csv', 'r'))
         for row in reader:
             key, value = row
             dict[key] = value
