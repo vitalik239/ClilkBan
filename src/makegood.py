@@ -32,11 +32,10 @@ def known(words):
 
 def good(word):
     candidates1 = known([word]).union(known(edits1(word)))
+    candidates2 = candidates1.union(known_edits2(word))
 
-    # candidates2 = candidates1.union(known_edits2(word))
-
-    if not candidates1:
+    if not candidates2:
         suitable = '***'
     else:
-        suitable = candidates1.pop()
+        suitable = candidates2.pop()
     return suitable
