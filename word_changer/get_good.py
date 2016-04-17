@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 import pymorphy2
-import file_loader
+#import changer
 
 morph = pymorphy2.MorphAnalyzer()
 
@@ -9,8 +9,8 @@ alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'.
 
 
 def is_good(word):
-    #p = morph.parse(word)[0]
-    return morph.word_is_known(word) and word not in file_loader.badwords
+    p = morph.parse(word)[0]
+    return morph.word_is_known(word)
 
 
 def edits1(word):
@@ -23,19 +23,16 @@ def edits1(word):
 
 
 def known_edits2(word):
-    return set(e2 for e1 in edits1(word) for e2 in edits1(e1) if is_good(e2))
-
-
-def known(words):
-    return set(w for w in words if is_good(w))
+    set_of_words = edits1(word)
+    c = set(ww for w in set_of_words for ww in edits1(w) if is_good(ww))
+    return c
 
 
 def good(word):
-    candidates1 = known([word]).union(known(edits1(word)))
-    candidates2 = candidates1.union(known_edits2(word))
-
-    if not candidates2:
-        suitable = '***'
-    else:
-        suitable = candidates2.pop()
-    return suitable
+    candidates = known_edits2(word)
+    pp = morph.parse(word)[0]
+    for c in candidates:
+        p = morph.parse(c)[0]
+        if p.tag.POS == pp.tag.POS and p.tag.case == pp.tag.case:
+            return c
+    return '***'
