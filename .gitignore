@@ -1,3 +1,6 @@
 .idea
 *.xml
 *.pyc
+
+resources/badgood.csv
+resources/badw.txt
