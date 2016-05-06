@@ -6,10 +6,15 @@ class Helper:
         self.conn = sqlite3.connect(path)
         self.print_all()
 
-    def add(self, word):
-        cursor = self.conn.execute('''SELECT * from WORDS where WORD=''' + word)
-        count = cursor[0][1] + 1
-        self.conn.execute("UPDATE WORDS set COUNT = " + str(count) + " where WORD=" + word)
+    def increment(self, word):
+        self.conn.execute("INSERT OR REPLACE INTO WORDS(word, count) \
+                    VALUES('" + word + "', \
+                    COALESCE((SELECT COUNT FROM WORDS WHERE \
+                    WORD='" + word + "'), 0));"
+        )
+        self.conn.execute("UPDATE WORDS SET COUNT=COUNT+1 WHERE WORD='" + word + "';")
+
+
         #except sqlite3.OperationalError:
         #    self.conn.execute('''INSERT INTO WORDS (WORD,COUNT) \
         #        VALUES (?, ?)''', (word, 1))

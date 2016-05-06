@@ -16,7 +16,7 @@ def get_words(tag_content):
     #print tag_content
     for word in tag_content.split(' '):
         if morph.word_is_known(word):
-            helper.add(word.lower())
+            helper.increment(word.lower())
 
 
 def crawl(page_address, web_site):
